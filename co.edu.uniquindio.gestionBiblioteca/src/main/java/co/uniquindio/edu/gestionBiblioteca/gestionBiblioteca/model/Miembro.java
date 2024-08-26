@@ -8,4 +8,11 @@ public class Miembro {
     private String identificacion;
 
     private List<Prestamo> prestamosActivos;
+
+    public Miembro(String nombre, String identificacion){
+        this.nombre = nombre;
+        this.identificacion = identificacion;
+
+        this.prestamosActivos = new ArrayList<>();
+    }
 }
