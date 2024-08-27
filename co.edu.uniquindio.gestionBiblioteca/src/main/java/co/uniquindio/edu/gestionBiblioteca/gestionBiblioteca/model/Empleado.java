@@ -20,4 +20,6 @@ public abstract class Empleado {
     public void setIdentificacion(String identificacion){
         this.identificacion = identificacion;
     }
+
+    public abstract void gestionarTareas();
 }
