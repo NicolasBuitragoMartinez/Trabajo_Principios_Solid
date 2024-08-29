@@ -9,17 +9,48 @@ import co.uniquindio.edu.gestionBiblioteca.gestionBiblioteca.model.Libro;
 import co.uniquindio.edu.gestionBiblioteca.gestionBiblioteca.model.Prestamo;
 
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class MainBiblioteca {
     public static void main(String[] args){
         Biblioteca biblioteca = inicializarDatos();
         introduccionNombreBiblioteca(biblioteca);
-        verificarPrestamoMiembro(biblioteca);
-        verificarPrestamoEmpleado(biblioteca);
-        verificarLibrosBiblioteca(biblioteca);
-        devolverLibro(biblioteca);
-    }
+        Scanner scanner = new Scanner(System.in);
 
+        while (true) {
+            System.out.println("Menú:");
+            System.out.println("1. Verificar libros en la biblioteca");
+            System.out.println("2. Verificar préstamos de miembros");
+            System.out.println("3. Verificar préstamos gestionados por empleados");
+            System.out.println("4. Verificar la devolución del libro");
+            System.out.println("5. Salir");
+            System.out.print("Selecciona una opción: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+
+            switch (opcion) {
+                case 1:
+                    verificarLibrosBiblioteca(biblioteca);
+                    break;
+                case 2:
+                    verificarPrestamoMiembro(biblioteca);
+                    break;
+                case 3:
+                    verificarPrestamoEmpleado(biblioteca);
+                    break;
+                case 4:
+                    devolverLibro(biblioteca);
+                    break;
+                case 5:
+                    System.out.println("Saliendo...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Opción no válida. Intenta de nuevo.");
+            }
+        }
+    }
     private static void introduccionNombreBiblioteca(Biblioteca biblioteca) {
         System.out.println("Biblioteca: " + biblioteca.getNombre());
         System.out.println();
