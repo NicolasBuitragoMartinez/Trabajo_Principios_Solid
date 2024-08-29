@@ -1,5 +1,5 @@
 package co.uniquindio.edu.gestionBiblioteca.gestionBiblioteca.constants;
 
-public enum EnumEstado {
+public enum EstadoLibro {
     DISPONIBLE, PRESTADO;
 }
