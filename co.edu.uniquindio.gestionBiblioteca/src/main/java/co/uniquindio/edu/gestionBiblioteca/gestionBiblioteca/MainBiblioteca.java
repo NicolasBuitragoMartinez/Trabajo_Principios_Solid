@@ -9,7 +9,6 @@ import co.uniquindio.edu.gestionBiblioteca.gestionBiblioteca.model.Libro;
 import co.uniquindio.edu.gestionBiblioteca.gestionBiblioteca.model.Prestamo;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 
 public class MainBiblioteca {
     public static void main(String[] args){
@@ -18,6 +17,7 @@ public class MainBiblioteca {
         verificarPrestamoMiembro(biblioteca);
         verificarPrestamoEmpleado(biblioteca);
         verificarLibrosBiblioteca(biblioteca);
+        devolverLibro(biblioteca);
     }
 
     private static void introduccionNombreBiblioteca(Biblioteca biblioteca) {
@@ -42,6 +42,8 @@ public class MainBiblioteca {
                 System.out.println("Bibliotecario");
                 System.out.println("Nombre: " + bibliotecario.getNombre());
                 System.out.println("Identificación: " + bibliotecario.getIdentificacion());
+                System.out.println();
+                System.out.println("Gestión de bibliotecario:");
                 for (Miembro miembro : biblioteca.getListaMiembro()) {
                     for (Libro libro : biblioteca.getListaLibro()) {
                         if (libro.getEstado() == EstadoLibro.PRESTADO) {
@@ -50,6 +52,7 @@ public class MainBiblioteca {
                             prestamo.setMiembro(miembro);
                             prestamo.setFechaPrestamo(LocalDate.now());
                             prestamo.setFechaDevolucion(LocalDate.now().plusDays(14));
+                            bibliotecario.gestionarItem();
                             bibliotecario.gestionarPrestamo(prestamo);
                             System.out.println("El libro '" + libro.getTitulo() + "' ha sido prestado correctamente.");
                             System.out.println();
@@ -78,6 +81,19 @@ public class MainBiblioteca {
                 System.out.println("  Fecha de Devolución: " + prestamo.getFechaDevolucion());
             }
             System.out.println();
+        }
+    }
+    private static void devolverLibro(Biblioteca biblioteca) {
+        Miembro miembro = biblioteca.getListaMiembro().get(0);
+        Prestamo prestamoParaDevolver = miembro.getPrestamosActivos().stream().findFirst().orElse(null);
+        if (prestamoParaDevolver != null) {
+            Libro libro = prestamoParaDevolver.getLibro();
+            libro.setEstado(EstadoLibro.DISPONIBLE);
+            miembro.eliminarPrestamo(prestamoParaDevolver);
+            System.out.println("Libro devuelto: " + libro.getTitulo());
+            verificarLibrosBiblioteca(biblioteca);
+        } else {
+            System.out.println("No hay préstamos activos para devolver.");
         }
     }
     public static Biblioteca inicializarDatos() {
